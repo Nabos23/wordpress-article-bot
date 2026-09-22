@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aepto Content & SEO Automation Dashboard</title>
+    <!-- Google Fonts: Inter & Outfit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #090d16;
+            --bg-card: rgba(18, 26, 44, 0.75);
+            --bg-card-hover: rgba(28, 39, 64, 0.85);
+            --border-color: rgba(255, 255, 255, 0.08);
+            --border-accent: rgba(99, 102, 241, 0.3);
+            --primary: #6366f1;
+            --primary-hover: #4f46e5;
+            --primary-glow: rgba(99, 102, 241, 0.35);
+            --accent: #06b6d4;
+            --accent-green: #10b981;
+            --accent-amber: #f59e0b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --text-dim: #64748b;
+            --radius-lg: 16px;
+            --radius-md: 10px;
+            --radius-sm: 6px;
+            --shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.5);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-dark);
+            background-image: 
+                radial-gradient(circle at 15% 15%, rgba(99, 102, 241, 0.12) 0%, transparent 45%),
+                radial-gradient(circle at 85% 85%, rgba(6, 182, 212, 0.1) 0%, transparent 45%);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            line-height: 1.5;
+        }
+
+        header {
+            border-bottom: 1px solid var(--border-color);
+            background: rgba(9, 13, 22, 0.8);
+            backdrop-filter: blur(12px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #fff;
+            letter-spacing: -0.5px;
+        }
+
+        .logo-icon {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 15px var(--primary-glow);
+        }
+
+        .nav-tabs {
+            display: flex;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.04);
+            padding: 4px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+        }
+
+        .nav-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            padding: 8px 18px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .nav-btn:hover {
+            color: var(--text-main);
+        }
+
+        .nav-btn.active {
+            background: var(--primary);
+            color: #fff;
+            box-shadow: 0 4px 12px var(--primary-glow);
+        }
+
+        main {
+            flex: 1;
+            max-width: 1280px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s ease-in-out forwards;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Card styles */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            backdrop-filter: blur(16px);
+            box-shadow: var(--shadow);
+            transition: border-color 0.2s ease, transform 0.2s ease;
+        }
+
+        .card:hover {
+            border-color: var(--border-accent);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.2rem;
+            padding-bottom: 0.8rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .card-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .badge {
+            font-size: 0.75rem;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .badge-primary { background: rgba(99, 102, 241, 0.2); color: var(--primary); border: 1px solid var(--border-accent); }
+        .badge-green { background: rgba(16, 185, 129, 0.2); color: var(--accent-green); border: 1px solid rgba(16, 185, 129, 0.3); }
+
+        /* Form Controls */
+        .form-group {
+            margin-bottom: 1.2rem;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--text-muted);
+            margin-bottom: 0.4rem;
+        }
+
+        .form-input, .form-select, .form-textarea {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 0.75rem 1rem;
+            color: var(--text-main);
+            font-family: inherit;
+            font-size: 0.95rem;
+            transition: all 0.2s ease;
+        }
+
+        .form-input:focus, .form-select:focus, .form-textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px var(--primary-glow);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            border-radius: var(--radius-md);
+            padding: 0.75rem 1.4rem;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 12px var(--primary-glow);
+            width: 100%;
+        }
+
+        .btn:hover {
+            background: var(--primary-hover);
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.08);
+            color: var(--text-main);
+            box-shadow: none;
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .btn-success {
+            background: var(--accent-green);
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+        }
+
+        .btn-success:hover {
+            background: #059669;
+        }
+
+        /* Review Modal / Container */
+        .review-panel {
+            background: var(--bg-card);
+            border: 1px solid var(--border-accent);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .article-preview-html {
+            background: rgba(5, 8, 16, 0.7);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 1.5rem;
+            max-height: 500px;
+            overflow-y: auto;
+            color: #cbd5e1;
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+
+        .article-preview-html h2 { color: #fff; margin-top: 1.2rem; margin-bottom: 0.5rem; font-family: 'Outfit'; }
+        .article-preview-html h4 { color: #6366f1; margin-top: 1rem; margin-bottom: 0.4rem; }
+        .article-preview-html p { margin-bottom: 0.8rem; }
+        .article-preview-html a { color: var(--accent); text-decoration: underline; }
+
+        .img-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .img-preview-box {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 0.5rem;
+            text-align: center;
+        }
+
+        .img-preview-box img {
+            max-width: 100%;
+            border-radius: var(--radius-sm);
+            height: auto;
+        }
+
+        .loader {
+            display: inline-block;
+            width: 18px;
+            height: 18px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .status-box {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 1rem;
+            font-family: monospace;
+            font-size: 0.85rem;
+            color: #38bdf8;
+            max-height: 180px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-container">
+            <div class="logo">
+                <div class="logo-icon">⚡</div>
+                <span>Aepto AI Content Engine</span>
+            </div>
+            <div class="nav-tabs">
+                <button class="nav-btn active" onclick="switchTab('generate')">Article Generator</button>
+                <button class="nav-btn" onclick="switchTab('linking')">Internal Linking</button>
+                <button class="nav-btn" onclick="switchTab('system')">System & Index</button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- TAB 1: ARTICLE GENERATOR -->
+        <div id="tab-generate" class="tab-content active">
+            <div class="grid">
+                <div class="card">
+                    <div class="card-header">
+                        <span class="card-title">Generate New Article</span>
+                        <span class="badge badge-primary">Target ~2500 Words</span>
+                    </div>
+                    <form id="gen-form" onsubmit="handleGenerate(event)">
+                        <div class="form-group">
+                            <label class="form-label">Target Keyword</label>
+                            <input type="text" id="keyword" class="form-input" placeholder="e.g. AI Content Strategy 2026" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">WordPress Post Status</label>
+                            <select id="status" class="form-select" onchange="toggleDateField()">
+                                <option value="draft">Save as Draft</option>
+                                <option value="publish">Publish Immediately</option>
+                                <option value="future">Schedule Future Date</option>
+                            </select>
+                        </div>
+                        <div class="form-group" id="date-group" style="display: none;">
+                            <label class="form-label">Publish Date (ISO Format)</label>
+                            <input type="text" id="publish-date" class="form-input" placeholder="2026-08-01T10:00:00">
+                        </div>
+                        <button type="submit" id="gen-btn" class="btn">
+                            <span>Generate Article</span>
+                        </button>
+                    </form>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <span class="card-title">Execution Console</span>
+                        <span class="badge badge-green">Active Thread</span>
+                    </div>
+                    <div id="console-status" class="status-box">
+                        System ready. Enter a keyword to start 2500-word article generation...
+                    </div>
+                </div>
+            </div>
+
+            <!-- Review Panel (hidden by default) -->
+            <div id="review-panel" class="review-panel" style="display: none;">
+                <div class="review-header">
+                    <div>
+                        <h2 style="font-family: 'Outfit'; font-size: 1.4rem;">Generated Article Review</h2>
+                        <p id="review-meta" style="color: var(--text-muted); font-size: 0.85rem;"></p>
+                    </div>
+                    <div style="display: flex; gap: 10px;">
+                        <button class="btn btn-secondary" onclick="saveDecision('edited')" style="width: auto;">Save Edits</button>
+                        <button class="btn btn-success" onclick="publishArticle()" style="width: auto;">Approve & Publish to WP</button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Article Title</label>
+                    <input type="text" id="review-title" class="form-input">
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <div class="form-group">
+                        <label class="form-label">Meta Title</label>
+                        <input type="text" id="review-meta-title" class="form-input">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Meta Description</label>
+                        <input type="text" id="review-meta-description" class="form-input">
+                    </div>
+                </div>
+
+                <div class="img-grid" id="image-previews">
+                    <!-- Dynamic image previews -->
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">HTML Content Preview / Editor</label>
+                    <textarea id="review-content" class="form-textarea" rows="12"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Live Visual Preview</label>
+                    <div id="rendered-preview" class="article-preview-html"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 2: INTERNAL LINKING -->
+        <div id="tab-linking" class="tab-content">
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-title">Post-Publish Internal Link Optimizer</span>
+                    <span class="badge badge-primary">Site-Wide Graph</span>
+                </div>
+                <form id="link-form" onsubmit="handlePlanLinks(event)">
+                    <div class="form-group">
+                        <label class="form-label">Target Article URL to Receive Backlinks</label>
+                        <input type="url" id="link-url" class="form-input" placeholder="https://yourblog.com/new-article-slug/" required>
+                    </div>
+                    <button type="submit" id="link-btn" class="btn">
+                        <span>Analyze & Plan Link Insertions</span>
+                    </button>
+                </form>
+            </div>
+
+            <div id="link-review-panel" class="review-panel" style="display: none; margin-top: 1.5rem;">
+                <div class="review-header">
+                    <div>
+                        <h2 style="font-family: 'Outfit'; font-size: 1.3rem;">Internal Link Proposals</h2>
+                        <p style="color: var(--text-muted); font-size: 0.85rem;">Review suggested sentence insertions into existing site pages.</p>
+                    </div>
+                    <button class="btn btn-success" onclick="publishLinks()" style="width: auto;">Apply Approved Links to WP</button>
+                </div>
+                <div id="link-proposals-container"></div>
+            </div>
+        </div>
+
+        <!-- TAB 3: SYSTEM & INDEX -->
+        <div id="tab-system" class="tab-content">
+            <div class="grid">
+                <div class="card">
+                    <div class="card-header">
+                        <span class="card-title">WordPress Content Ingestion</span>
+                    </div>
+                    <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.2rem;">
+                        Sync all published WordPress posts, compute PageRank authority scores, and update vector embeddings.
+                    </p>
+                    <button class="btn btn-secondary" onclick="triggerIngest()">Sync & Ingest WP Database</button>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <span class="card-title">System Status & Stats</span>
+                    </div>
+                    <div id="system-report" class="status-box">
+                        Loading system report...
+                    </div>
+                    <button class="btn btn-secondary" onclick="loadReport()" style="margin-top: 1rem;">Refresh Status</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        let currentThreadId = null;
+        let currentLinkThreadId = null;
+
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active'));
+
+            document.getElementById(`tab-${tabName}`).classList.add('active');
+            event.target.classList.add('active');
+
+            if (tabName === 'system') loadReport();
+        }
+
+        function toggleDateField() {
+            const status = document.getElementById('status').value;
+            document.getElementById('date-group').style.display = status === 'future' ? 'block' : 'none';
+        }
+
+        function logConsole(msg) {
+            const el = document.getElementById('console-status');
+            const time = new Date().toLocaleTimeString();
+            el.innerHTML += `<div>[${time}] ${msg}</div>`;
+            el.scrollTop = el.scrollHeight;
+        }
+
+        async function handleGenerate(e) {
+            e.preventDefault();
+            const btn = document.getElementById('gen-btn');
+            const keyword = document.getElementById('keyword').value;
+            const status = document.getElementById('status').value;
+            const date = document.getElementById('publish-date').value;
+
+            btn.disabled = true;
+            btn.innerHTML = `<span class="loader"></span> Generating Article...`;
+            logConsole(`Initiating generation pipeline for keyword: "${keyword}"...`);
+
+            try {
+                const res = await fetch('/generate', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ keyword, status, date: status === 'future' ? date : null })
+                });
+
+                const data = await res.json();
+                if (!res.ok) throw new Error(data.detail || 'Generation failed');
+
+                currentThreadId = data.thread_id;
+                logConsole(`Generation completed successfully! Thread ID: ${currentThreadId}`);
+                displayReview(data.review);
+            } catch (err) {
+                logConsole(`Error: ${err.message}`);
+                alert(`Generation failed: ${err.message}`);
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = `<span>Generate Article</span>`;
+            }
+        }
+
+        function displayReview(review) {
+            document.getElementById('review-panel').style.display = 'block';
+            document.getElementById('review-title').value = review.title || '';
+            document.getElementById('review-meta-title').value = review.meta_title || '';
+            document.getElementById('review-meta-description').value = review.meta_description || '';
+            document.getElementById('review-content').value = review.content_html || '';
+            document.getElementById('rendered-preview').innerHTML = review.content_html || '';
+
+            const wordCount = review.word_count || (review.content_html ? review.content_html.replace(/<[^>]+>/g, '').split(/\s+/).length : 0);
+            document.getElementById('review-meta').innerText = `Word Count: ~${wordCount} words | Status: ${review.decision || 'Draft Ready'}`;
+
+            // Handle image previews
+            const imgBox = document.getElementById('image-previews');
+            imgBox.innerHTML = '';
+
+            if (review.featured_image_path) {
+                const fname = review.featured_image_path.split(/[\\/]/).pop();
+                imgBox.innerHTML += `
+                    <div class="img-preview-box">
+                        <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 4px;">Featured Banner</div>
+                        <img src="/generated_images/${fname}" alt="Featured Banner">
+                    </div>`;
+            }
+            if (review.heading_image_path) {
+                const fname = review.heading_image_path.split(/[\\/]/).pop();
+                imgBox.innerHTML += `
+                    <div class="img-preview-box">
+                        <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 4px;">In-Article Heading Banner</div>
+                        <img src="/generated_images/${fname}" alt="Heading Banner">
+                    </div>`;
+            }
+
+            // Sync content textarea edits to visual preview
+            document.getElementById('review-content').oninput = function() {
+                document.getElementById('rendered-preview').innerHTML = this.value;
+            };
+        }
+
+        async function saveDecision(decision = 'edited') {
+            if (!currentThreadId) return;
+            const payload = {
+                decision: decision,
+                title: document.getElementById('review-title').value,
+                meta_title: document.getElementById('review-meta-title').value,
+                meta_description: document.getElementById('review-meta-description').value,
+                content_html: document.getElementById('review-content').value,
+            };
+
+            const res = await fetch(`/generate/${currentThreadId}/decide`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+            const data = await res.json();
+            logConsole(`Decision saved: ${data.message}`);
+        }
+
+        async function publishArticle() {
+            if (!currentThreadId) return;
+            await saveDecision('approved');
+            logConsole(`Publishing article thread ${currentThreadId} to WordPress...`);
+
+            try {
+                const res = await fetch(`/generate/${currentThreadId}/publish`, { method: 'POST' });
+                const data = await res.json();
+                if (!res.ok) throw new Error(data.detail || 'Publish failed');
+                logConsole(`Article published successfully! Post ID: ${data.post_id || 'OK'}`);
+                alert('Article successfully published to WordPress!');
+            } catch (err) {
+                logConsole(`Publish Error: ${err.message}`);
+                alert(`Publishing failed: ${err.message}`);
+            }
+        }
+
+        async function handlePlanLinks(e) {
+            e.preventDefault();
+            const btn = document.getElementById('link-btn');
+            const url = document.getElementById('link-url').value;
+
+            btn.disabled = true;
+            btn.innerHTML = `<span class="loader"></span> Planning Internal Links...`;
+
+            try {
+                const res = await fetch('/links/plan', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ url })
+                });
+                const data = await res.json();
+                if (!res.ok) throw new Error(data.detail || 'Link planning failed');
+
+                currentLinkThreadId = data.thread_id;
+                displayLinkProposals(data.review);
+            } catch (err) {
+                alert(`Link planning failed: ${err.message}`);
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = `<span>Analyze & Plan Link Insertions</span>`;
+            }
+        }
+
+        function displayLinkProposals(suggestions) {
+            const container = document.getElementById('link-proposals-container');
+            document.getElementById('link-review-panel').style.display = 'block';
+            container.innerHTML = '';
+
+            if (!suggestions || suggestions.length === 0) {
+                container.innerHTML = `<p style="color: var(--text-muted);">No eligible internal link opportunities found.</p>`;
+                return;
+            }
+
+            suggestions.forEach((item, idx) => {
+                container.innerHTML += `
+                    <div class="card" style="margin-bottom: 1rem; background: rgba(0,0,0,0.2);">
+                        <div class="card-header">
+                            <span class="card-title" style="font-size: 1rem;">Page: ${item.source_title || item.source_url}</span>
+                            <span class="badge badge-primary">${item.decision || 'Pending'}</span>
+                        </div>
+                        <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 8px;"><strong>Rationale:</strong> ${item.rationale}</p>
+                        <div style="font-size: 0.9rem; background: rgba(255,255,255,0.04); padding: 10px; border-radius: 6px; margin-bottom: 10px;">
+                            ${item.after || item.paragraph_new_html || item.rationale}
+                        </div>
+                        <select onchange="updateLinkDecision(${idx}, this.value)" class="form-select" style="width: auto; padding: 4px 10px; font-size: 0.85rem;">
+                            <option value="approved" ${item.decision === 'approved' ? 'selected' : ''}>Approve</option>
+                            <option value="rejected" ${item.decision === 'rejected' ? 'selected' : ''}>Reject</option>
+                        </select>
+                    </div>`;
+            });
+        }
+
+        async function triggerIngest() {
+            try {
+                const res = await fetch('/ingest', { method: 'POST' });
+                const data = await res.json();
+                alert(`Ingestion complete! Stats: ${JSON.stringify(data.stats)}`);
+                loadReport();
+            } catch (err) {
+                alert(`Ingest failed: ${err.message}`);
+            }
+        }
+
+        async function loadReport() {
+            const el = document.getElementById('system-report');
+            try {
+                const res = await fetch('/report');
+                const data = await res.json();
+                el.innerText = JSON.stringify(data, null, 2);
+            } catch (err) {
+                el.innerText = `Error loading report: ${err.message}`;
+            }
+        }
+    </script>
+</body>
+</html>
