@@ -20,7 +20,7 @@ XML_NS = {"sm": "http://www.sitemaps.org/schemas/sitemap/0.9"}
 
 @retry(stop=stop_after_attempt(3), wait=wait_exponential(multiplier=1, min=1, max=10))
 def _fetch_xml(url: str) -> etree._Element:
-    resp = requests.get(url, timeout=30, headers={"User-Agent": "aepto-content-bot/1.0"})
+    resp = requests.get(url, timeout=30, headers={"User-Agent": "wordpress-article-bot/1.0"})
     resp.raise_for_status()
     return etree.fromstring(resp.content)
 

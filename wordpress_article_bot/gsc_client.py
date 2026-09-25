@@ -9,7 +9,7 @@ by default policy, so this avoids that entirely):
      OAuth client ID. Application type: Desktop app.
   2. Download the JSON, point GSC_OAUTH_CLIENT_JSON at it in .env.
   3. First run of `ingest` opens a browser to log in as the Google account that
-     has access to the aepto.com Search Console property. A token is cached to
+     has access to your Search Console property. A token is cached to
      storage/gsc-token.json afterward, so future runs don't prompt again.
 """
 

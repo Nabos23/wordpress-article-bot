@@ -52,7 +52,7 @@ def _save_json(path: Path, data: Any) -> None:
 
 @router.get("/health")
 def health() -> dict[str, Any]:
-    return {"status": "ok", "service": "aepto-content-bot"}
+    return {"status": "ok", "service": "wordpress-article-bot"}
 
 
 @router.post("/ingest")

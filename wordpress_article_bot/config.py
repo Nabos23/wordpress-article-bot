@@ -1,9 +1,6 @@
 """
-Central configuration for the Aepto content-generation & internal-linking system.
+Central configuration for the WordPress Article content-generation & internal-linking system.
 Loaded from environment variables (.env supported).
-
-This is a separate project from the limitlesshost internal-linking-bot -- keep a
-separate .env / venv so the two never accidentally cross-write to the wrong site.
 """
 
 import os

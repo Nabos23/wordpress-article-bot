@@ -1,5 +1,5 @@
 """
-Single-article image generation for the Aepto content pipeline.
+Single-article image generation for the WordPress content pipeline.
 
 Generates two images per article:
   1. Featured image  -- built from the article's full title + FEATURED_TEMPLATE_PATH

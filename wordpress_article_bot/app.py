@@ -5,7 +5,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from .routing import router
 
-app = FastAPI(title="Aepto Content & Internal Linking Bot")
+app = FastAPI(title="WordPress Content & Internal Linking Bot")
 
 app.add_middleware(
     CORSMiddleware,
