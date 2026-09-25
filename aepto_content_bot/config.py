@@ -17,7 +17,7 @@ load_dotenv()
 
 @dataclass
 class Settings:
-    wp_base_url: str = os.environ.get("WP_BASE_URL", "https://aepto.com").rstrip("/")
+    wp_base_url: str = os.environ.get("WP_BASE_URL", "https://example.com").rstrip("/")
     wp_app_user: str = os.environ.get("WP_APP_USER", "")
     wp_app_password: str = os.environ.get("WP_APP_PASSWORD", "")
 
