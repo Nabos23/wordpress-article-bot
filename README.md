@@ -1,4 +1,4 @@
-# Aepto Content Bot
+# WordPress Article Content Bot
 
 An automated WordPress content generation and internal linking system powered by LangGraph, Groq, and Google Gemini.
 
