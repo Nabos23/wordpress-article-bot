@@ -29,8 +29,8 @@ The bot handles the full content lifecycle in four coordinated parts:
 ### 1. Clone & install
 
 ```bash
-git clone https://github.com/Nabos23/aepto-content-bot.git
-cd aepto-content-bot
+git clone https://github.com/Nabos23/wordpress-article-bot.git
+cd wordpress-article-bot
 python -m venv .venv
 # Windows:
 .venv\Scripts\activate
@@ -102,26 +102,26 @@ Coordinates for the text overlays are defined in `image_gen.py` under `FEATURED_
 ```bash
 # Crawl the site, build the link graph + vector index, cache authority scores.
 # Run first, and again whenever you want the bot to see new/changed content.
-python -m aepto_content_bot.main ingest
+python -m wordpress_article_bot.main ingest
 
 # Print a summary of what's in the local store.
-python -m aepto_content_bot.main report
+python -m wordpress_article_bot.main report
 ```
 
 ### Part 2 — Generate an article
 
 ```bash
 # Draft an article (writes storage/gen_review_<thread-id>.json)
-python -m aepto_content_bot.main generate --keyword "ai vulnerability scanner" --status draft
+python -m wordpress_article_bot.main generate --keyword "ai vulnerability scanner" --status draft
 
 # Schedule for a future date (ISO 8601 local time)
-python -m aepto_content_bot.main generate \
+python -m wordpress_article_bot.main generate \
     --keyword "wordpress uptime monitoring" \
     --status future \
     --date 2026-10-15T09:00:00
 
 # After reviewing the JSON file, approve and publish
-python -m aepto_content_bot.main approve \
+python -m wordpress_article_bot.main approve \
     --thread-id gen-xxxx \
     --review-file storage/gen_review_gen-xxxx.json
 ```
@@ -140,11 +140,11 @@ For scheduled posts (or any article you want a fresh linking pass on):
 
 ```bash
 # Draft link insertions pointing at an existing article
-python -m aepto_content_bot.main plan-links \
+python -m wordpress_article_bot.main plan-links \
     --url https://your-site.com/your-article-slug/
 
 # Apply your decisions
-python -m aepto_content_bot.main approve-links \
+python -m wordpress_article_bot.main approve-links \
     --thread-id link-xxxx \
     --review-file storage/link_review_link-xxxx.json
 ```
@@ -152,7 +152,7 @@ python -m aepto_content_bot.main approve-links \
 ### Part 4 — API server
 
 ```bash
-uvicorn aepto_content_bot.app:app --reload --port 8000
+uvicorn wordpress_article_bot.app:app --reload --port 8000
 ```
 
 ---
@@ -180,8 +180,8 @@ All state is stored in `storage/` (`gen_review_*.json`, `link_review_*.json`, `c
 ## Project Structure
 
 ```
-aepto_content_bots/
-├── aepto_content_bot/
+wordpress_article_bot/
+├── wordpress_article_bot/
 │   ├── main.py              # CLI entry point (all commands)
 │   ├── app.py               # FastAPI app factory
 │   ├── routing.py           # FastAPI route handlers

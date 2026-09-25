@@ -29,7 +29,6 @@ storage/gsc-token.json
 # ── Runtime / generated storage ─────────────────────────────────────────────
 storage/
 # Keep the storage directory itself but ignore all generated files inside it.
-# Re-create with: python -m aepto_content_bot.main ingest
 
 # ── Image templates (large binaries — track with Git LFS if needed) ──────────
 # Comment these lines out if you want to commit your templates to the repo.

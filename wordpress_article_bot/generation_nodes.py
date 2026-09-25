@@ -592,7 +592,7 @@ def render_callout_box(text: str, title: str = "Key Takeaway") -> str:
 
 CUSTOM_HTML_SNIPPET = """
 <style>
-    .aepto-in-feed-cta {
+    .in-feed-cta {
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -645,7 +645,7 @@ CUSTOM_HTML_SNIPPET = """
 
     /* Responsive adjustment for mobile */
     @media (max-width: 650px) {
-        .aepto-in-feed-cta {
+        .in-feed-cta {
             flex-direction: column;
             text-align: center;
             padding: 24px;
@@ -656,12 +656,12 @@ CUSTOM_HTML_SNIPPET = """
     }
 </style>
 
-<div class="aepto-in-feed-cta">
+<div class="in-feed-cta">
     <div class="cta-content">
         <h4>Ready to scale your Domain Monitoring?</h4>
         <p>Explore how our AI Domain Monitoring System can save you hours of manual work every week.</p>
     </div>
-    <a href="https://app.aepto.com/signup" class="cta-button">Try it for free!</a>
+    <a href="#" class="cta-button">Try it for free!</a>
 </div>
 """
 

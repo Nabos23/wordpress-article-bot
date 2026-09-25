@@ -2,20 +2,20 @@
 CLI usage
 ---------
 
-    python -m aepto_content_bot.main ingest
+    python -m wordpress_article_bot.main ingest
         Crawls the site, builds the link graph + vector index, and caches
         authority scores (PageRank blended with GSC clicks, if configured).
 
-    python -m aepto_content_bot.main report
+    python -m wordpress_article_bot.main report
 
-    python -m aepto_content_bot.main generate --keyword "..." --status future --date ...
-    python -m aepto_content_bot.main approve --thread-id ... --review-file ...
+    python -m wordpress_article_bot.main generate --keyword "..." --status future --date ...
+    python -m wordpress_article_bot.main approve --thread-id ... --review-file ...
         Part 2. If --status was "publish" (immediate), approve automatically
         chains into the Part 3 linking plan for the new article and prints the
         next command to run.
 
-    python -m aepto_content_bot.main plan-links --url <new-article-url>
-    python -m aepto_content_bot.main approve-links --thread-id ... --review-file ...
+    python -m wordpress_article_bot.main plan-links --url <new-article-url>
+    python -m wordpress_article_bot.main approve-links --thread-id ... --review-file ...
         Part 3, standalone -- use this for an article that was scheduled/drafted
         earlier and has since gone live (or any article you want a fresh linking
         pass on), since the auto-chain above only fires at the moment of an
@@ -117,7 +117,7 @@ def cmd_generate(args):
         review = interrupt_payload["review"]
         print(f"Drafted \"{review['title']}\" -- {review['word_count']} words, {len(review['links_used'])} internal links.")
         print(f"Review it here:\n  {review_path}")
-        print(f"Then run: python -m aepto_content_bot.main approve --thread-id {thread_id} --review-file {review_path}")
+        print(f"Then run: python -m wordpress_article_bot.main approve --thread-id {thread_id} --review-file {review_path}")
     return {"thread_id": thread_id, "review_path": review_path, "review": review}
 
 
@@ -142,7 +142,7 @@ def _start_linking_plan(article_url: str, article_wp_id: int, article_title: str
 
         print(f"[linking] {len(interrupt_payload['review'])} candidate internal-link insertions proposed.")
         print(f"[linking] Review them here:\n  {review_path}")
-        print(f"[linking] Then run: python -m aepto_content_bot.main approve-links --thread-id {thread_id} --review-file {review_path}")
+        print(f"[linking] Then run: python -m wordpress_article_bot.main approve-links --thread-id {thread_id} --review-file {review_path}")
     return {"thread_id": thread_id, "review_path": review_path, "review": interrupt_payload["review"]}
 
 
@@ -222,7 +222,7 @@ def cmd_approve_links(args):
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Aepto content generation & internal linking system")
+    parser = argparse.ArgumentParser(description="WordPress content generation & internal linking system")
     sub = parser.add_subparsers(required=True)
 
     p_ingest = sub.add_parser("ingest", help="Crawl the site and rebuild the knowledge base")
